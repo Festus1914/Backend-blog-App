@@ -2,8 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
+
 //Routes
 const userRoutes = require("./routes/userRoutes");
+const { invalidPathHandler, errorResponserHandler } = require("./middleware/errorHandler");
 
 dotenv.config();
 connectDB();
@@ -15,6 +17,9 @@ app.get('/', function(req, res) {
 });
 
 app.use("/api/users", userRoutes)
+app.use(invalidPathHandler);
+app.use(errorResponserHandler);
+
 
 const PORT = process.env.PORT || 5000;
 
