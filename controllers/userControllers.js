@@ -132,11 +132,14 @@ const updateProfilePicture = async (req, res, next) => {
             } else {
                 // If everthing actually went well.
                 if(req.file) {
-                    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
-                        avatar: req.file.filename,
-                    },
-                     { new: true }
-                    );
+                    let filename;
+                    let updatedUser = await User.findById(req.user._id,);
+                    filename = updatedUser.avatar;
+                    if(filename) {
+                        fileRemover(filename);
+                    }
+                    updatedUser.avatar = req.file.filename;
+                    await updatedUser.save();
                     res.json({
                         _id : updatedUser._id,
                         avatar: updatedUser.avatar,
