@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
@@ -17,6 +18,10 @@ app.get('/', function(req, res) {
 });
 
 app.use("/api/users", userRoutes)
+
+// static assets
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
 app.use(invalidPathHandler);
 app.use(errorResponserHandler);
 
